@@ -17,11 +17,12 @@ from bluelog.utils import redirect_back
 blog_bp = Blueprint('blog', __name__)
 
 
-@blog_bp.route('/')
-def index():
-    page = request.args.get('page', 1, type=int)
+@blog_bp.route('/', defaults={'page': 1})
+@blog_bp.route('/page/<int:page>')
+def index(page):
+    # page = request.args.get('page', type=int)
     per_page = current_app.config['BLUELOG_POST_PER_PAGE']
-    pagination = Post.query.order_by(Post.timestamp.desc()).paginate(page, per_page=per_page)
+    pagination = Post.query.order_by(Post.timestamp.desc()).paginate(page, per_page=per_page, error_out=True)
     posts = pagination.items
     return render_template('blog/index.html', pagination=pagination, posts=posts)
 

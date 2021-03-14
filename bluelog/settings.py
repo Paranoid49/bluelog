@@ -25,6 +25,7 @@ class BaseConfig(object):
 
     SQLALCHEMY_TRACK_MODIFICATIONS = False
     SQLALCHEMY_RECORD_QUERIES = True
+    SQLALCHEMY_POOL_RECYCLE = 280
 
     CKEDITOR_ENABLE_CSRF = True
     CKEDITOR_FILE_UPLOADER = 'admin.upload_image'
@@ -49,7 +50,8 @@ class BaseConfig(object):
 
 
 class DevelopmentConfig(BaseConfig):
-    SQLALCHEMY_DATABASE_URI = prefix + os.path.join(basedir, 'data-dev.db')
+    # SQLALCHEMY_DATABASE_URI = prefix + os.path.join(basedir, 'data-dev.db')  # sqlite
+    SQLALCHEMY_DATABASE_URI = 'mysql://root@localhost/bluelog'  # mysql
 
 
 class TestingConfig(BaseConfig):
@@ -59,7 +61,8 @@ class TestingConfig(BaseConfig):
 
 
 class ProductionConfig(BaseConfig):
-    SQLALCHEMY_DATABASE_URI = os.getenv('DATABASE_URL', prefix + os.path.join(basedir, 'data.db'))
+    # SQLALCHEMY_DATABASE_URI = os.getenv('DATABASE_URL', prefix + os.path.join(basedir, 'data.db'))
+    SQLALCHEMY_DATABASE_URI = 'mysql://root@localhost/bluelog'  # mysql
 
 
 config = {

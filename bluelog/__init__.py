@@ -27,19 +27,20 @@ basedir = os.path.abspath(os.path.dirname(os.path.dirname(__file__)))
 
 def create_app(config_name=None):
     if config_name is None:
-        config_name = os.getenv('FLASK_CONFIG', 'development')
+        # 默认使用development开发配置，可以在.env/.flaskenv中设置FLASK_CONFIG
+        config_name = os.getenv('FLASK_CONFIG', 'production')
 
     app = Flask('bluelog')
     app.config.from_object(config[config_name])
 
-    register_logging(app)
-    register_extensions(app)
-    register_blueprints(app)
-    register_commands(app)
-    register_errors(app)
-    register_shell_context(app)
-    register_template_context(app)
-    register_request_handlers(app)
+    register_logging(app)           # 日志
+    register_extensions(app)        # 扩展
+    register_blueprints(app)        # 蓝本
+    register_commands(app)          # 命令
+    register_errors(app)            # 错误处理
+    register_shell_context(app)     # shell上下文
+    register_template_context(app)  # 模板上下文
+    register_request_handlers(app)  # 请求处理
     return app
 
 
